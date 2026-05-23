@@ -11,7 +11,7 @@ Llena esto cuando termines de desplegar.
 
 ## Nube
 
-- Frontend nube: `https://____________________________`
+- Frontend nube: `https://lanastudionline.com/actiFinal/`
 - Pokemon Swagger nube: `https://actividad-final-entrega-pokemon.up.railway.app/api-docs`
 - Naruto Swagger nube: `https://abundant-clarity-pokemon.up.railway.app/api-docs/swagger-ui`
 - Dragon Ball Swagger nube: `https://humble-victory-pokemon.up.railway.app/api-docs`

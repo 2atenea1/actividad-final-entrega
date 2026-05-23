@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad Final — Microservicios</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Segoe UI', sans-serif; background: #0d1117; color: #e6edf3; min-height: 100vh; }
+
+    header { background: linear-gradient(135deg, #1f2937, #111827); padding: 30px 20px; text-align: center; border-bottom: 2px solid #30363d; }
+    header h1 { font-size: 2rem; color: #58a6ff; margin-bottom: 8px; }
+    header p { color: #8b949e; }
+
+    .tabs { display: flex; justify-content: center; gap: 10px; padding: 20px; flex-wrap: wrap; }
+    .tab-btn { padding: 12px 28px; border: none; border-radius: 30px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.3s; }
+    .tab-btn.pokemon { background: #f59e0b; color: #000; }
+    .tab-btn.naruto { background: #f97316; color: #000; }
+    .tab-btn.dragonball { background: #ef4444; color: #fff; }
+    .tab-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(255,255,255,0.1); }
+    .tab-btn.active { box-shadow: 0 0 0 3px white; }
+
+    .section { display: none; padding: 20px; max-width: 1200px; margin: 0 auto; }
+    .section.active { display: block; }
+
+    .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; }
+    .section-header h2 { font-size: 1.6rem; }
+    .section-header .badge { padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+
+    .actions { display: flex; gap: 10px; margin-bottom: 25px; flex-wrap: wrap; align-items: center; }
+    .btn { padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: all 0.2s; }
+    .btn-primary { background: #1f6feb; color: white; }
+    .btn-success { background: #238636; color: white; }
+    .btn-warning { background: #f59e0b; color: black; }
+    .btn:hover { opacity: 0.85; transform: translateY(-1px); }
+
+    .search-box { padding: 10px 15px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 0.9rem; flex: 1; min-width: 200px; }
+
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 20px; text-align: center; transition: transform 0.2s; }
+    .card:hover { transform: translateY(-4px); border-color: #58a6ff; }
+    .avatar { width: 80px; height: 80px; margin: 0 auto 10px; border-radius: 50%; background: #21262d; position: relative; display: grid; place-items: center; overflow: hidden; border: 1px solid #30363d; }
+    .avatar-fallback { width: 100%; height: 100%; display: grid; place-items: center; color: #e6edf3; font-size: 1rem; font-weight: 800; letter-spacing: 0; }
+    .avatar img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #0d1117; }
+    .card h3 { font-size: 1rem; margin-bottom: 6px; color: #e6edf3; }
+    .card .tipo { font-size: 0.8rem; padding: 3px 8px; border-radius: 12px; display: inline-block; margin-bottom: 8px; }
+    .card .stat { font-size: 0.78rem; color: #8b949e; margin: 2px 0; }
+    .card .card-actions { display: flex; gap: 6px; justify-content: center; margin-top: 10px; }
+    .btn-sm { padding: 5px 10px; font-size: 0.75rem; border: none; border-radius: 6px; cursor: pointer; }
+    .btn-edit { background: #1f6feb; color: white; }
+    .btn-del { background: #da3633; color: white; }
+
+    .pokemon .tipo { background: #f59e0b22; color: #f59e0b; border: 1px solid #f59e0b44; }
+    .naruto .tipo { background: #f9731622; color: #f97316; border: 1px solid #f9731644; }
+    .dragonball .tipo { background: #ef444422; color: #ef4444; border: 1px solid #ef444444; }
+
+    .status-bar { padding: 12px 16px; background: #161b22; border: 1px solid #30363d; border-radius: 8px; margin-bottom: 20px; font-size: 0.85rem; color: #8b949e; }
+    .status-bar.ok { border-color: #238636; color: #3fb950; }
+    .status-bar.error { border-color: #da3633; color: #f85149; }
+    .status-bar.loading { border-color: #1f6feb; color: #58a6ff; }
+
+    .modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+    .modal.open { display: flex; }
+    .modal-box { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 30px; width: 90%; max-width: 450px; }
+    .modal-box h3 { margin-bottom: 20px; color: #58a6ff; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 0.85rem; color: #8b949e; margin-bottom: 5px; }
+    .form-group input { width: 100%; padding: 10px; background: #0d1117; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-size: 0.9rem; }
+    .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+
+    .swagger-links { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+    .swagger-link { padding: 8px 16px; background: #1f2937; border: 1px solid #30363d; border-radius: 8px; color: #58a6ff; text-decoration: none; font-size: 0.85rem; }
+    .swagger-link:hover { border-color: #58a6ff; }
+
+    footer { text-align: center; padding: 30px; color: #8b949e; font-size: 0.85rem; border-top: 1px solid #21262d; margin-top: 40px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🎮 Actividad Final — Microservicios en la Nube</h1>
+  <p>Node.js + MySQL &nbsp;|&nbsp; Java + PostgreSQL &nbsp;|&nbsp; Python + MongoDB</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn pokemon active" onclick="showTab('pokemon')">⚡ Pokemones</button>
+  <button class="tab-btn naruto" onclick="showTab('naruto')">🍥 Naruto</button>
+  <button class="tab-btn dragonball" onclick="showTab('dragonball')">🐉 Dragon Ball</button>
+</div>
+
+<!-- POKEMON -->
+<div id="tab-pokemon" class="section pokemon active">
+  <div class="section-header">
+    <h2>⚡ Pokemones</h2>
+    <span class="badge" style="background:#f59e0b22;color:#f59e0b;border:1px solid #f59e0b44">Node.js + MySQL</span>
+  </div>
+  <div class="swagger-links">
+    <a class="swagger-link" href="#" id="swagger-pokemon" target="_blank">📖 Swagger API Docs</a>
+  </div>
+  <div id="status-pokemon" class="status-bar">Conectando con el servicio...</div>
+  <div class="actions">
+    <input type="text" class="search-box" id="search-pokemon" placeholder="🔍 Buscar pokemon..." oninput="filtrar('pokemon')">
+    <button class="btn btn-success" onclick="openModal('pokemon')">+ Agregar</button>
+    <button class="btn btn-warning" onclick="seedData('pokemon')">📥 Cargar Datos</button>
+  </div>
+  <div class="grid" id="grid-pokemon"></div>
+</div>
+
+<!-- NARUTO -->
+<div id="tab-naruto" class="section naruto">
+  <div class="section-header">
+    <h2>🍥 Personajes de Naruto</h2>
+    <span class="badge" style="background:#f9731622;color:#f97316;border:1px solid #f9731644">Java + PostgreSQL</span>
+  </div>
+  <div class="swagger-links">
+    <a class="swagger-link" href="#" id="swagger-naruto" target="_blank">📖 Swagger API Docs</a>
+  </div>
+  <div id="status-naruto" class="status-bar">Conectando con el servicio...</div>
+  <div class="actions">
+    <input type="text" class="search-box" id="search-naruto" placeholder="🔍 Buscar personaje..." oninput="filtrar('naruto')">
+    <button class="btn btn-success" onclick="openModal('naruto')">+ Agregar</button>
+    <button class="btn btn-warning" onclick="seedData('naruto')">📥 Cargar Datos</button>
+  </div>
+  <div class="grid" id="grid-naruto"></div>
+</div>
+
+<!-- DRAGON BALL -->
+<div id="tab-dragonball" class="section dragonball">
+  <div class="section-header">
+    <h2>🐉 Guerreros Dragon Ball</h2>
+    <span class="badge" style="background:#ef444422;color:#ef4444;border:1px solid #ef444444">Python + MongoDB</span>
+  </div>
+  <div class="swagger-links">
+    <a class="swagger-link" href="#" id="swagger-dragonball" target="_blank">📖 Swagger API Docs</a>
+  </div>
+  <div id="status-dragonball" class="status-bar">Conectando con el servicio...</div>
+  <div class="actions">
+    <input type="text" class="search-box" id="search-dragonball" placeholder="🔍 Buscar guerrero..." oninput="filtrar('dragonball')">
+    <button class="btn btn-success" onclick="openModal('dragonball')">+ Agregar</button>
+    <button class="btn btn-warning" onclick="seedData('dragonball')">📥 Cargar Datos</button>
+  </div>
+  <div class="grid" id="grid-dragonball"></div>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <h3 id="modal-title">Agregar personaje</h3>
+    <div id="modal-fields"></div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" onclick="saveModal()">Guardar</button>
+      <button class="btn" style="background:#21262d" onclick="closeModal()">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  Actividad Final — Microservicios en la Nube &nbsp;|&nbsp; Node.js · Java · Python &nbsp;|&nbsp; MySQL · PostgreSQL · MongoDB
+</footer>
+
+<script src="config.js"></script>
+<script>
+// ── CONFIGURACIÓN ───────────────────────────────────────────
+const CONFIG = {
+  pokemon:    { url: window.POKEMON_API    || "http://localhost:3001", endpoint: "/api/pokemons",    seed: "/api/pokemons/seed/data", docs: "/api-docs" },
+  naruto:     { url: window.NARUTO_API     || "http://localhost:3002", endpoint: "/api/personajes",  seed: "/api/personajes/seed/data", docs: "/api-docs/swagger-ui" },
+  dragonball: { url: window.DRAGONBALL_API || "http://localhost:3003", endpoint: "/api/guerreros",   seed: "/api/guerreros/seed/data", docs: "/api-docs" }
+};
+
+const FIELDS = {
+  pokemon:    [{k:"nombre",l:"Nombre"},{k:"tipo",l:"Tipo"},{k:"nivel",l:"Nivel",t:"number"},{k:"habilidad",l:"Habilidad"},{k:"imagen_url",l:"URL Imagen"}],
+  naruto:     [{k:"nombre",l:"Nombre"},{k:"aldea",l:"Aldea"},{k:"rango",l:"Rango"},{k:"jutsu",l:"Jutsu"},{k:"imagen_url",l:"URL Imagen"}],
+  dragonball: [{k:"nombre",l:"Nombre"},{k:"raza",l:"Raza"},{k:"transformacion",l:"Transformación"},{k:"poder",l:"Poder",t:"number"},{k:"imagen_url",l:"URL Imagen"}]
+};
+
+const EMOJIS = { pokemon: "⚡", naruto: "🍥", dragonball: "🐉" };
+
+let dataCache = { pokemon: [], naruto: [], dragonball: [] };
+let currentTab = "pokemon", editingId = null, editingSerie = null;
+
+// ── TABS ───────────────────────────────────────────────────
+function showTab(tab) {
+  document.querySelectorAll(".section").forEach(s => s.classList.remove("active"));
+  document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+  document.getElementById("tab-" + tab).classList.add("active");
+  document.querySelector(".tab-btn." + tab).classList.add("active");
+  currentTab = tab;
+  loadData(tab);
+}
+
+// ── API ────────────────────────────────────────────────────
+async function loadData(serie) {
+  const cfg = CONFIG[serie];
+  setStatus(serie, "loading", "⏳ Cargando datos...");
+  try {
+    const res = await fetch(cfg.url + cfg.endpoint);
+    const json = await res.json();
+    dataCache[serie] = json.data || [];
+    renderGrid(serie, dataCache[serie]);
+    setStatus(serie, "ok", `✅ ${dataCache[serie].length} registros cargados`);
+  } catch (e) {
+    setStatus(serie, "error", `❌ Error al conectar con el servicio: ${e.message}`);
+    renderGrid(serie, []);
+  }
+}
+
+async function seedData(serie) {
+  const cfg = CONFIG[serie];
+  setStatus(serie, "loading", "⏳ Insertando datos de ejemplo...");
+  try {
+    const res = await fetch(cfg.url + cfg.seed, { method: "POST" });
+    const json = await res.json();
+    setStatus(serie, "ok", "✅ " + json.message);
+    loadData(serie);
+  } catch (e) {
+    setStatus(serie, "error", "❌ " + e.message);
+  }
+}
+
+async function deleteItem(serie, id) {
+  if (!confirm("¿Eliminar este registro?")) return;
+  const cfg = CONFIG[serie];
+  try {
+    await fetch(`${cfg.url}${cfg.endpoint}/${id}`, { method: "DELETE" });
+    loadData(serie);
+  } catch (e) {
+    alert("Error al eliminar: " + e.message);
+  }
+}
+
+// ── RENDER ─────────────────────────────────────────────────
+function initials(nombre, serie) {
+  return (nombre || EMOJIS[serie])
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+}
+
+function hashText(text) {
+  let hash = 0;
+  for (let i = 0; i < text.length; i++) hash = ((hash << 5) - hash) + text.charCodeAt(i);
+  return Math.abs(hash);
+}
+
+function generatedAvatar(serie, nombre) {
+  const seed = hashText(`${serie}-${nombre}`);
+  const naruto = ["#f97316", "#facc15", "#1d4ed8", "#111827"];
+  const dragonball = ["#f97316", "#ef4444", "#2563eb", "#facc15"];
+  const palette = serie === "dragonball" ? dragonball : naruto;
+  const primary = palette[seed % palette.length];
+  const secondary = palette[(seed + 1) % palette.length];
+  const badge = serie === "dragonball" ? "DB" : "NX";
+  const label = initials(nombre, serie);
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="${primary}"/>
+          <stop offset="100%" stop-color="${secondary}"/>
+        </linearGradient>
+      </defs>
+      <rect width="160" height="160" rx="80" fill="#0d1117"/>
+      <circle cx="80" cy="80" r="68" fill="url(#g)" opacity="0.95"/>
+      <circle cx="118" cy="42" r="22" fill="#ffffff" opacity="0.16"/>
+      <path d="M24 106 C48 80 68 120 96 84 C110 66 128 66 140 76" fill="none" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.22"/>
+      <text x="80" y="89" text-anchor="middle" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#ffffff">${label}</text>
+      <text x="80" y="119" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" font-weight="700" fill="#111827" opacity="0.72">${badge}</text>
+    </svg>`;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+
+function avatarMarkup(serie, nombre, img) {
+  const fallbackSrc = generatedAvatar(serie, nombre);
+  const imgSrc = img || fallbackSrc;
+  const iniciales = (nombre || EMOJIS[serie])
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map(p => p[0])
+    .join("")
+    .toUpperCase();
+  const fallback = serie === "pokemon" ? EMOJIS[serie] : iniciales;
+  const image = `<img src="${imgSrc}" alt="${nombre}" referrerpolicy="no-referrer" loading="lazy" onerror="this.onerror=null;this.src='${fallbackSrc}'">`;
+  return `<div class="avatar"><div class="avatar-fallback">${fallback}</div>${image}</div>`;
+}
+
+function renderGrid(serie, data) {
+  const grid = document.getElementById("grid-" + serie);
+  if (data.length === 0) {
+    grid.innerHTML = `<p style="color:#8b949e;grid-column:1/-1;text-align:center;padding:40px">No hay datos. Pulsa "Cargar Datos" para insertar ejemplos.</p>`;
+    return;
+  }
+  grid.innerHTML = data.map(item => {
+    const id = item.id || item._id;
+    const nombre = item.nombre || "Sin nombre";
+    const sub = item.tipo || item.aldea || item.raza || "";
+    const stat1 = item.habilidad || item.jutsu || item.transformacion || "";
+    const stat2 = item.nivel ? `Nivel ${item.nivel}` : (item.poder ? `Poder: ${item.poder.toLocaleString()}` : item.rango || "");
+    const img = item.imagen_url;
+    return `
+      <div class="card">
+        ${avatarMarkup(serie, nombre, img)}
+        <h3>${nombre}</h3>
+        <span class="tipo">${sub}</span>
+        ${stat1 ? `<p class="stat">⚔️ ${stat1}</p>` : ""}
+        ${stat2 ? `<p class="stat">📊 ${stat2}</p>` : ""}
+        <div class="card-actions">
+          <button class="btn-sm btn-edit" onclick="openModal('${serie}', '${id}')">✏️</button>
+          <button class="btn-sm btn-del" onclick="deleteItem('${serie}', '${id}')">🗑️</button>
+        </div>
+      </div>`;
+  }).join("");
+}
+
+function filtrar(serie) {
+  const q = document.getElementById("search-" + serie).value.toLowerCase();
+  const filtrado = dataCache[serie].filter(i => i.nombre && i.nombre.toLowerCase().includes(q));
+  renderGrid(serie, filtrado);
+}
+
+// ── MODAL ──────────────────────────────────────────────────
+function openModal(serie, id = null) {
+  editingSerie = serie;
+  editingId = id;
+  const fields = FIELDS[serie];
+  document.getElementById("modal-title").textContent = id ? "Editar registro" : "Agregar " + serie;
+
+  let item = {};
+  if (id) {
+    item = dataCache[serie].find(i => (i.id || i._id) == id) || {};
+  }
+
+  document.getElementById("modal-fields").innerHTML = fields.map(f => `
+    <div class="form-group">
+      <label>${f.l}</label>
+      <input type="${f.t || 'text'}" id="field-${f.k}" value="${item[f.k] || ''}" placeholder="${f.l}">
+    </div>`).join("");
+
+  document.getElementById("modal").classList.add("open");
+}
+
+function closeModal() {
+  document.getElementById("modal").classList.remove("open");
+  editingId = null; editingSerie = null;
+}
+
+async function saveModal() {
+  const serie = editingSerie;
+  const cfg = CONFIG[serie];
+  const body = {};
+  FIELDS[serie].forEach(f => {
+    const val = document.getElementById("field-" + f.k).value;
+    body[f.k] = f.t === "number" ? (parseInt(val) || 0) : val;
+  });
+  try {
+    const url = editingId ? `${cfg.url}${cfg.endpoint}/${editingId}` : `${cfg.url}${cfg.endpoint}`;
+    const method = editingId ? "PUT" : "POST";
+    await fetch(url, { method, headers: {"Content-Type":"application/json"}, body: JSON.stringify(body) });
+    closeModal();
+    loadData(serie);
+  } catch (e) {
+    alert("Error: " + e.message);
+  }
+}
+
+// ── UTILS ──────────────────────────────────────────────────
+function setStatus(serie, type, msg) {
+  const el = document.getElementById("status-" + serie);
+  el.className = "status-bar " + type;
+  el.textContent = msg;
+}
+
+function updateSwaggerLinks() {
+  Object.keys(CONFIG).forEach(s => {
+    const el = document.getElementById("swagger-" + s);
+    if (el) el.href = CONFIG[s].url + CONFIG[s].docs;
+  });
+}
+
+// ── INIT ───────────────────────────────────────────────────
+updateSwaggerLinks();
+loadData("pokemon");
+</script>
+</body>
+</html>

@@ -1,0 +1,10 @@
+node_modules/
+coverage/
+.scannerwork/
+test-report.xml
+target/
+__pycache__/
+.pytest_cache/
+.env
+*.log
+*.lnk

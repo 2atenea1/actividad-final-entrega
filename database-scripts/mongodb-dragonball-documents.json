@@ -1,0 +1,86 @@
+[
+  {
+    "nombre": "Goku",
+    "raza": "Saiyajin",
+    "transformacion": "Ultra Instinto",
+    "poder": 9000000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/4/4f/Goku_DBSuper.png"
+  },
+  {
+    "nombre": "Vegeta",
+    "raza": "Saiyajin",
+    "transformacion": "Super Saiyajin Blue",
+    "poder": 8500000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/8/88/Vegeta_DBSuper.png"
+  },
+  {
+    "nombre": "Gohan",
+    "raza": "Saiyajin/Humano",
+    "transformacion": "Bestia",
+    "poder": 7800000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/4/41/Son_Gohan_DBSSH.png"
+  },
+  {
+    "nombre": "Piccolo",
+    "raza": "Namekiano",
+    "transformacion": "Orange Piccolo",
+    "poder": 6500000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/5/59/Piccolo_DBSSH.png"
+  },
+  {
+    "nombre": "Freezer",
+    "raza": "Mutante",
+    "transformacion": "Black Freezer",
+    "poder": 8000000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/5/52/Freeza_DBZ_Episode_95.png"
+  },
+  {
+    "nombre": "Cell",
+    "raza": "Bio-Androide",
+    "transformacion": "Perfecto",
+    "poder": 6000000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/d/d4/CellPerfect.png"
+  },
+  {
+    "nombre": "Majin Buu",
+    "raza": "Majin",
+    "transformacion": "Buu Gordo",
+    "poder": 5500000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/4/4d/Majin_Buu.png"
+  },
+  {
+    "nombre": "Trunks",
+    "raza": "Saiyajin/Humano",
+    "transformacion": "Super Saiyajin Rage",
+    "poder": 5200000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/3/3f/Future_Trunks_Super.png"
+  },
+  {
+    "nombre": "Krilin",
+    "raza": "Humano",
+    "transformacion": "Ninguna",
+    "poder": 1500000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/5/5e/Krillin_DBZ_Ep_217.png"
+  },
+  {
+    "nombre": "Beerus",
+    "raza": "Dios de la Destruccion",
+    "transformacion": "Hakaishin",
+    "poder": 99000000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/2/2c/Beerus_DBS_Broly.png"
+  },
+  {
+    "nombre": "Whis",
+    "raza": "Angel",
+    "transformacion": "Guia angelical",
+    "poder": 999999999,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/6/6f/Whis_DBS_Broly.png"
+  },
+  {
+    "nombre": "Broly",
+    "raza": "Saiyajin",
+    "transformacion": "Super Saiyajin Legendario",
+    "poder": 9500000,
+    "imagen_url": "https://static.wikia.nocookie.net/dragonball/images/4/44/Broly_DBS.png"
+  }
+]

@@ -1,0 +1,23 @@
+# URLs para entregar
+
+Llena esto cuando termines de desplegar.
+
+## Local
+
+- Frontend local: `http://localhost:8080`
+- Pokemon Swagger local: `http://localhost:3001/api-docs`
+- Naruto Swagger local: `http://localhost:3002/api-docs/swagger-ui`
+- Dragon Ball Swagger local: `http://localhost:3003/api-docs`
+
+## Nube
+
+- Frontend nube: `https://____________________________`
+- Pokemon Swagger nube: `https://____________________________/api-docs`
+- Naruto Swagger nube: `https://____________________________/api-docs/swagger-ui`
+- Dragon Ball Swagger nube: `https://____________________________/api-docs`
+
+## Bases de datos
+
+- MySQL Pokemon: Railway
+- PostgreSQL Naruto: Supabase
+- MongoDB Dragon Ball: MongoDB Atlas

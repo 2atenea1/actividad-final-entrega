@@ -12,9 +12,9 @@ Llena esto cuando termines de desplegar.
 ## Nube
 
 - Frontend nube: `https://____________________________`
-- Pokemon Swagger nube: `https://____________________________/api-docs`
-- Naruto Swagger nube: `https://____________________________/api-docs/swagger-ui`
-- Dragon Ball Swagger nube: `https://____________________________/api-docs`
+- Pokemon Swagger nube: `https://actividad-final-entrega-pokemon.up.railway.app/api-docs`
+- Naruto Swagger nube: `https://abundant-clarity-pokemon.up.railway.app/api-docs/swagger-ui`
+- Dragon Ball Swagger nube: `https://humble-victory-pokemon.up.railway.app/api-docs`
 
 ## Bases de datos
 

@@ -136,7 +136,7 @@ http://localhost:9000
 Usuario inicial normalmente:
 
 ```text
-admin / admin
+admin / Admin123456@
 ```
 
 Crea un proyecto local y genera token.
@@ -219,7 +219,13 @@ window.NARUTO_API = "https://tu-naruto.up.railway.app";
 window.DRAGONBALL_API = "https://tu-dragonball.up.railway.app";
 ```
 
-Luego sube la carpeta `frontend` a Netlify o Vercel.
+Estado actual: ya se verificaron los 3 microservicios en Railway. Pokemon, Naruto y Dragon Ball responden con 12 registros cada uno.
+
+Luego sube la carpeta `frontend` a Hostinger:
+
+en la carpeta: "https://srv1709-files.hstgr.io/auth?token=712ce0ffe958428b0a3373b00ee370704f9a5e8aff055c5d639a4d8f1507412e"
+
+si no permite entrar a "https://hpanel.hostinger.com/websites/lanastudionline.com/files/file-manager"
 
 ## 9. Capturas para entregar
 

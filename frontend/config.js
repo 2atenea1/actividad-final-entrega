@@ -1,5 +1,4 @@
-// Cambia estas URLs cuando tengas los microservicios desplegados en la nube.
-// Para prueba local con Docker, deja localhost.
-window.POKEMON_API = "http://localhost:3001";
-window.NARUTO_API = "http://localhost:3002";
-window.DRAGONBALL_API = "http://localhost:3003";
+// URLs publicas de los microservicios desplegados en Railway.
+window.POKEMON_API = "https://actividad-final-entrega-pokemon.up.railway.app";
+window.NARUTO_API = "https://abundant-clarity-pokemon.up.railway.app";
+window.DRAGONBALL_API = "https://humble-victory-pokemon.up.railway.app";
